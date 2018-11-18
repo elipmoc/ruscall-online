@@ -103,7 +103,7 @@ dependencies = [
 [[package]]
 name = "ruscall"
 version = "0.5.0"
-source = "git+https://github.com/elipmoc/Ruscall.git?branch=develop#812d4f2628bbff56822cd40e9d1853af767e8f0f"
+source = "git+https://github.com/elipmoc/Ruscall.git?branch=develop#5aae16118753cb9fab32588b33b6e4ca0d896995"
 dependencies = [
  "cc 1.0.25 (registry+https://github.com/rust-lang/crates.io-index)",
  "combine 3.6.3 (registry+https://github.com/rust-lang/crates.io-index)",
