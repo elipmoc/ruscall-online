@@ -1,0 +1,7 @@
+[package]
+name = "ruscall-online"
+version = "0.1.0"
+authors = ["elipmoc <relipmoc101@gmail.com>"]
+
+[dependencies]
+ruscall={git="https://github.com/elipmoc/Ruscall.git", branch="develop"}
