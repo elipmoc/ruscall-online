@@ -29,3 +29,5 @@ RUN apt-get install -y wget \
 ENV LLVM_SYS_60_PREFIX=/usr/lib/llvm-6.0
 
 RUN apt-get install -y zlib1g-dev
+
+CMD ["cargo","run"]
