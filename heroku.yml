@@ -1,5 +1,0 @@
-setup:
-  config: {}
-build:
-  docker:
-    web: Dockerfile.dev
