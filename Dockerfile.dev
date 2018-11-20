@@ -31,4 +31,9 @@ ENV LLVM_SYS_60_PREFIX=/usr/lib/llvm-6.0
 
 RUN apt-get install -y zlib1g-dev
 
+ADD ./html /app/html
+ADD ./src /app/src
+ADD ./Cargo.toml /app/Cargo.toml
+ADD ./Cargo.lock /app/Cargo.lock
+
 CMD ["cargo","run"]
