@@ -16,7 +16,8 @@ ENV PATH $PATH:$HOME/.cargo/bin
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain ${RUST_VERSION} \
     && rustup component add rustfmt-preview \
     && rustup component add rls-preview rust-analysis rust-src \
-    && rustup install stable
+    && rustup install stable \
+    && rustup default stable
 
 # llvmのインストール
 
