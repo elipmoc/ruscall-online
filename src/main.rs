@@ -11,7 +11,7 @@ use actix_web::{Form, server, App, HttpRequest, Responder, HttpResponse};
 use actix_web::http::Method;
 
 fn index(_req: &HttpRequest) -> impl Responder {
-    let body = include_str!("..\\html\\index.html");
+    let body = include_str!("../html/index.html");
     HttpResponse::Ok()
         .content_type("text/html")
         .body(body)
@@ -38,7 +38,7 @@ fn compile(info: Form<Info>) -> impl Responder {
             } else {
                 command_exec("sh", &[
                     "-c",
-                    &("./".to_string() + &current_dir + "\\compiled.out")
+                    &(current_dir + "/compiled.out")
                 ])
             }
         };
