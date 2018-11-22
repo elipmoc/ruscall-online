@@ -16,8 +16,9 @@ ENV PATH $PATH:$HOME/.cargo/bin
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain ${RUST_VERSION} \
     && rustup component add rustfmt-preview \
     && rustup component add rls-preview rust-analysis rust-src \
-    && rustup install stable \
-    && rustup default stable
+    && rustup install stable
+
+RUN rustup default stable
 
 # llvmのインストール
 
@@ -36,4 +37,6 @@ ADD ./src /app/src
 ADD ./Cargo.toml /app/Cargo.toml
 ADD ./Cargo.lock /app/Cargo.lock
 
-CMD ["cargo","run"]
+RUN cargo build
+
+CMD bash -c "target/debug/ruscall-online"
