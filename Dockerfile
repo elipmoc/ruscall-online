@@ -32,11 +32,20 @@ ENV LLVM_SYS_60_PREFIX=/usr/lib/llvm-6.0
 
 RUN apt-get install -y zlib1g-dev
 
-ADD ./html /app/html
+# npmのインストール
+RUN apt-get install -y nodejs npm \
+    && npm cache clean \
+    && npm install n -g \
+    && n stable \
+    && ln -sf /usr/local/bin/node /usr/bin/node
+RUN npm install -g @vue/cli
+RUN ls
+ADD ./front /app/front
 ADD ./src /app/src
 ADD ./Cargo.toml /app/Cargo.toml
 ADD ./Cargo.lock /app/Cargo.lock
 
+RUN cd front && npm run build
 RUN cargo build
 
 CMD bash -c "target/debug/ruscall-online"
