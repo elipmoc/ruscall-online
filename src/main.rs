@@ -7,14 +7,16 @@ extern crate actix_web;
 
 use ruscall::compile::compile_from_str;
 use std::env;
-use actix_web::{Form, server, App, HttpRequest, Responder, HttpResponse,Path};
+use actix_web::{ server, App,Json, HttpRequest, Responder, HttpResponse,Path};
 use actix_web::http::Method;
 use std::fs;
 use std::io::{BufReader, Read};
 use std::io::prelude::*;
 
 fn index(_req: &HttpRequest) -> impl Responder {
-    let body = include_str!("../front/dist/index.html");
+    let mut f = BufReader::new(fs::File::open("front/dist/index.html").unwrap());
+    let mut body="".to_string();
+    f.read_to_string(&mut body).unwrap();
     HttpResponse::Ok()
         .content_type("text/html")
         .body(body)
@@ -22,11 +24,16 @@ fn index(_req: &HttpRequest) -> impl Responder {
 
 fn text(info:Path<(String,String)>) -> impl Responder {
     let file_name=format!("front/dist/{}/{}",info.0,info.1);
+    let mime_type= match  info.0.as_str(){
+        "css"=>"text/css",
+        "js"=>"text/javascript",
+        _=>panic!("error!")
+    };
     let mut f = BufReader::new(fs::File::open(file_name).unwrap());
     let mut body: String = "".to_string();
     f.read_to_string(&mut body).unwrap();
     HttpResponse::Ok()
-        .content_type("text/plain")
+        .content_type(mime_type)
         .body(body)
 }
 
@@ -44,7 +51,7 @@ struct Info {
     code: String,
 }
 
-fn compile(info: Form<Info>) -> impl Responder {
+fn compile(info: Json<Info>) -> impl Responder {
     let result = compile_from_str(&info.code, "foobar");
     let body =
         if let Err(err) = result {
@@ -100,7 +107,7 @@ fn command_exec<I, S>(terminal: &str, args: I) -> String
         .args(args.clone())
         .output()
         .expect("failed to execute process");
-    format!("status: {} \nstdout: {}stderr: {}",
+    format!("status: {} \n----stdout---- \n {} \n----stderr---- {}",
             output.status,
             String::from_utf8_lossy(&output.stdout),
             String::from_utf8_lossy(&output.stderr))
