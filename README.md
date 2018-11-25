@@ -1,5 +1,5 @@
 # ruscall-online
-Ruscallコンパイラをweb上で動かすプロジェクト
+Ruscallコンパイラ（ https://github.com/elipmoc/Ruscall ）をweb上で動かすプロジェクト
 
 # アクセス
 http://ruscall-online.herokuapp.com/
