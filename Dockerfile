@@ -9,16 +9,6 @@ RUN apt-get update -y && apt-get install -y build-essential
 RUN apt-get -y install curl
 
 WORKDIR /app
-ENV RUST_VERSION stable
-ENV HOME /home
-ENV USER $USER
-ENV PATH $PATH:$HOME/.cargo/bin
-RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain ${RUST_VERSION} \
-    && rustup component add rustfmt-preview \
-    && rustup component add rls-preview rust-analysis rust-src \
-    && rustup install stable
-
-RUN rustup default stable
 
 # llvmのインストール
 
@@ -42,10 +32,27 @@ RUN npm install -g @vue/cli
 RUN ls
 ADD ./front /app/front
 ADD ./src /app/src
+
+# rustのインストール
+ENV RUST_VERSION stable
+ENV HOME /home
+ENV USER $USER
+ENV PATH $PATH:$HOME/.cargo/bin
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain ${RUST_VERSION} \
+    && rustup component add rustfmt-preview \
+    && rustup component add rls-preview rust-analysis rust-src \
+    && rustup install stable
+
+RUN rustup default stable
+
 ADD ./Cargo.toml /app/Cargo.toml
 ADD ./Cargo.lock /app/Cargo.lock
 
 RUN cd front && npm run build
+RUN echo "skip"
 RUN cargo build
+
+RUN  apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
 
 CMD bash -c "target/debug/ruscall-online"

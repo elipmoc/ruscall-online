@@ -67,7 +67,7 @@ fn compile(info: Json<Info>) -> impl Responder {
             } else {
                 command_exec("sh", &[
                     "-c",
-                    &(current_dir + "/compiled.out")
+                    &(current_dir + "/foobar.out")
                 ])
             }
         };
